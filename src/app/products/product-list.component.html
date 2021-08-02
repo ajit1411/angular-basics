@@ -1,0 +1,76 @@
+<div class="card">
+    <div class="card-header">
+        {{pageTitle}}
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                Filter:
+            </div>
+            <div class="col-md-4">
+                <input type="text" [(ngModel)]="listFilter"/>
+            </div>
+            <h4>Filter By: {{listFilter}}</h4>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table" *ngIf="products.length">
+                <thead>
+                    <tr>
+                        <th>
+                            <button class="btn btn-primary"
+                            (click)="toggleShowImage()">
+                                {{showImages ? "Hide" : "Show"}} Image
+                            </button>
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Available
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Rating
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of filteredProducts">
+                        <td>
+                            <img *ngIf="showImages" [style.width.px]="imageWidth" [src]="product.imageUrl"
+                                [style.margin.px]="imageMargin" [title]="product.name">
+                        </td>
+                        <td>
+                            <a [routerLink]="['/products', product.id]">
+                                {{product.name}}
+                            </a>
+                        </td>
+                        <td>
+                            {{product.code | uppercase | convertToSpaces:"-"}}
+                        </td>
+                        <td>
+                            {{product.available}}
+                        </td>
+                        <td>
+                            {{product.price | currency : "USD" : "$" : "1.2-2"}}
+                        </td>
+                        <td>
+                            <!-- {{product.rating}} -->
+                            <rating
+                            [rating]="product.rating"
+                            (ratingClicked)="updateRating($event)"
+                            ></rating>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
